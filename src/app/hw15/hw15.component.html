@@ -1,0 +1,78 @@
+<!-- <p>hw15 works!</p> -->
+<div class="container-fluid">
+    <h2 style="color: rgb(201, 30, 30);">My phone book!</h2>
+    <hr>
+    <div class="row">
+        <input type="text" class="form-control col-9 ml-3" placeholder="search text goes here" [(ngModel)]="searchName" name="searchName" >
+        <button class="btn btn-success col-2 ml-3" data-toggle="modal" data-target="#myModal" (click)="changeAddStatus()">Add contact</button>
+    </div>
+    <hr>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th [class.active]="order === 'firstName'"
+                (click)="setOrder('firstName')"
+                class="mdl-data-table__cell--non-numeric">First Name 
+                    <span [hidden]="reverse">▼</span>
+                    <span [hidden]="!reverse">▲</span>
+                </th>
+                <th [class.active]="order === 'lastName'"
+                (click)="setOrder('lastName')"
+                class="mdl-data-table__cell--non-numeric">Last Name
+                    <span [hidden]="reverse">▼</span>
+                    <span [hidden]="!reverse">▲</span>
+                </th>
+                <th [class.active]="order === 'phoneNumber'"
+                (click)="setOrder('phoneNumber')">Number
+                    <span [hidden]="reverse">▼</span>
+                    <span [hidden]="!reverse">▲</span>
+                </th>
+                <th>edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let contact of arrContacts | search:searchName | orderBy: order:reverse:'case-insensitive'; let i=index">
+                <td>{{contact.firstName}}</td>
+                <td>{{contact.lastName}}</td>
+                <td>{{contact.phoneNumber}}</td>
+                <td>
+                    <input type="button" class="btn btn-warning" value="edit" (click)="editContact(contact)" data-toggle="modal" data-target="#myModal">
+                </td>
+                <td>
+                    <input type="button" class="btn btn-danger" value="delete" (click)="deleteContact(contact.id)">
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+</div>
+
+
+<div class="container">
+    <!-- The Modal -->
+    <div class="modal" id="myModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Add phone</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form>
+                    <input type="text" class="form-control mt-3" [(ngModel)]="firstName" name="firstName" placeholder="first name goes here" >
+                    <input type="text" class="form-control mt-3" [(ngModel)]="lastName" name="lastName" placeholder="last name goes here">
+                    <input type="text" class="form-control mt-3" [(ngModel)]="phoneNumber" name="phoneNumber" placeholder="phone number goes here">
+                </form>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" (click)="addOrSaveContact()" class="btn btn-primary" data-dismiss="modal">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
